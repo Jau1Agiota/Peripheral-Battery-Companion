@@ -88,18 +88,18 @@ fun CompanionApp(state: BatteryUiState, onRefresh: () -> Unit) {
             }
             if (settings) {
                 Text("Advanced settings", style = MaterialTheme.typography.headlineSmall)
-                Text("Demo only", color = Cyan, style = MaterialTheme.typography.titleLarge)
-                Text("All readings are synthetic. No PC is connected. Refresh only reloads the same sample values.")
+                Text(if (state.snapshot.synthetic) "Demo only" else state.connection.status, color = Cyan, style = MaterialTheme.typography.titleLarge)
+                Text(if (state.snapshot.synthetic) "All readings are synthetic. No PC is connected. Refresh only reloads the same sample values." else state.connection.detail)
                 Text("Future connectivity", style = MaterialTheme.typography.titleLarge)
                 Text("LAN and authenticated VPN access are future proposals. Pairing, authentication, encryption and Windows API review remain unresolved. No network service, discovery, polling or notifications are enabled.")
                 TextButton(onClick = { settings = false }) { Text("Back to Devices") }
             } else {
-                Text("Demo data · Synthetic sample readings", color = Muted, fontSize = 10.sp)
-                state.snapshot.devices.forEach { DeviceCard(it) }
+                Text(state.connection.banner, color = Muted, fontSize = 10.sp)
+                state.snapshot.devices.forEach { DeviceCard(it, state.connection.readingLabel) }
                 Box {
                     val large = LocalDensity.current.fontScale > 1.5f
                     val buttons: @Composable (Modifier) -> Unit = { modifier ->
-                        ActionButton("Refresh", Glyph.Refresh, onRefresh, modifier)
+                        ActionButton("Refresh", Glyph.Refresh, onRefresh, modifier, state.snapshot.synthetic)
                     }
                     if (large) Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         buttons(Modifier.fillMaxWidth())
@@ -109,7 +109,7 @@ fun CompanionApp(state: BatteryUiState, onRefresh: () -> Unit) {
                         ActionButton("Advanced settings", Glyph.Settings, { settings = true }, Modifier.weight(1.15f))
                     }
                 }
-                if (state.refreshCount > 0) Text("Demo reloaded ${state.refreshCount} time(s) · Sample values unchanged",
+                if (state.snapshot.synthetic && state.refreshCount > 0) Text("Demo reloaded ${state.refreshCount} time(s) · Sample values unchanged",
                     Modifier.semantics { liveRegion = LiveRegionMode.Polite }, color = Muted, fontSize = 12.sp)
                 Surface(shape = RoundedCornerShape(12.dp), border = BorderStroke(1.dp, Color(0xFF13415C)), color = Ink) {
                     Row(Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically,
@@ -117,8 +117,8 @@ fun CompanionApp(state: BatteryUiState, onRefresh: () -> Unit) {
                         LineIcon(Glyph.Monitor, Muted, Modifier.size(30.dp))
                         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                             Text("PC Connection", fontSize = 13.sp, fontWeight = FontWeight.Bold)
-                            Text("Demo mode · Not connected", color = Cyan, fontSize = 12.sp)
-                            Text("Synthetic samples · Not your device readings", color = Muted, fontSize = 11.sp)
+                            Text(state.connection.status, color = Cyan, fontSize = 12.sp)
+                            Text(state.connection.detail, color = Muted, fontSize = 11.sp)
                         }
                     }
                 }
@@ -128,8 +128,8 @@ fun CompanionApp(state: BatteryUiState, onRefresh: () -> Unit) {
 }
 
 @Composable
-private fun ActionButton(label: String, glyph: Glyph, onClick: () -> Unit, modifier: Modifier) {
-    OutlinedButton(onClick = onClick, modifier = modifier.heightIn(min = 48.dp),
+private fun ActionButton(label: String, glyph: Glyph, onClick: () -> Unit, modifier: Modifier, enabled: Boolean = true) {
+    OutlinedButton(onClick = onClick, enabled = enabled, modifier = modifier.heightIn(min = 48.dp),
         shape = RoundedCornerShape(12.dp), contentPadding = PaddingValues(horizontal = 8.dp, vertical = 10.dp),
         border = BorderStroke(1.dp, Color(0xFF0078AA)), colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)) {
         LineIcon(glyph, Cyan, Modifier.size(20.dp))
@@ -139,7 +139,7 @@ private fun ActionButton(label: String, glyph: Glyph, onClick: () -> Unit, modif
 }
 
 @Composable
-private fun DeviceCard(device: DeviceReading) {
+private fun DeviceCard(device: DeviceReading, readingLabel: String) {
     val p = device.present()
     val accent = when (device.id) { "hyperx" -> Color(0xFFD23854); "g305" -> Color(0xFF688CAB); else -> Color(0xFF00ADEC) }
     val resource = when (device.id) { "g915" -> R.drawable.keyboard; "g305" -> R.drawable.mouse; else -> R.drawable.headset }
@@ -172,7 +172,7 @@ private fun DeviceCard(device: DeviceReading) {
                             Box(Modifier.fillMaxWidth(progress).fillMaxHeight().clip(RoundedCornerShape(6.dp)).background(chargeColor))
                         }
                     }
-                    Text(if (device.precision == Precision.ESTIMATE && p.progress != null) p.value else "Demo data",
+                    Text(if (device.precision == Precision.ESTIMATE && p.progress != null) p.value else readingLabel,
                         color = Muted, fontSize = 11.sp, lineHeight = 14.sp)
                     Text(p.description, color = Muted, fontSize = 11.sp, lineHeight = 14.sp)
                 }

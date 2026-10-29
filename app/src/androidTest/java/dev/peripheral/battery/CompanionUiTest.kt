@@ -10,6 +10,8 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
+import dev.peripheral.battery.data.DisconnectedBatteryRepository
+import dev.peripheral.battery.ui.forUi
 import dev.peripheral.battery.data.DemoBatteryRepository
 import dev.peripheral.battery.ui.BatteryUiState
 import org.junit.Assert.assertTrue
@@ -34,6 +36,19 @@ class CompanionUiTest {
         compose.onNodeWithText("Future connectivity").assertExists()
         compose.onNodeWithText("Back to Devices").performScrollTo().performClick()
         compose.onNodeWithText("G915 Keyboard").performScrollTo().assertIsDisplayed()
+    }
+
+    @Test fun emptyProviderKeepsCardsAndDoesNotPretendToBeDemoOrConnected() {
+        val disconnected = DisconnectedBatteryRepository().snapshot().forUi()
+        compose.setContent { MaterialTheme { CompanionApp(BatteryUiState(disconnected), {}) } }
+        compose.onNodeWithText("G915 Keyboard").assertExists()
+        compose.onNodeWithText("G305 Mouse").assertExists()
+        compose.onNodeWithText("HyperX Cloud III Wireless").assertExists()
+        compose.onAllNodesWithText("Unknown").assertCountEquals(3)
+        compose.onNodeWithText("Refresh").performScrollTo().assertIsNotEnabled()
+        compose.onNodeWithText("Not connected").performScrollTo().assertIsDisplayed()
+        compose.onNodeWithText("Demo mode · Not connected").assertDoesNotExist()
+        compose.onNodeWithText("Connected").assertDoesNotExist()
     }
 
     @Test fun narrowLargeFontsRemainScrollable() {
