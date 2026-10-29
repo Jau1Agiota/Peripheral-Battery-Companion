@@ -1,7 +1,8 @@
 Stage A1 verification — 2026-10-29
 Branch: feature/stage-a1-compose-foundation
 Source base: 9f4e19caef06bbd5280c804dacc72870afc18b67
-PR: https://github.com/Jau1Agiota/Peripheral-Battery-Companion/pull/1 (draft, base main)
+PR: https://github.com/Jau1Agiota/Peripheral-Battery-Companion/pull/2 (draft, base main)
+Original PR1 was merged externally during verification; this agent did not merge it.
 
 Toolchain: Temurin JDK17.0.21+9, Gradle8.9, Android SDK35, Build-Tools34.0.0
 (AGP default) and35.0.0, AGP8.7.3, Kotlin2.0.21. Official Gradle/JDK SHA-256 and
