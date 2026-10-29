@@ -1,29 +1,45 @@
 Stage A1 verification — 2026-10-29
 Branch: feature/stage-a1-compose-foundation
-Base: a2b42da11114f46b6d0045d14902eb6dc1c99968
-Origin: https://github.com/Jau1Agiota/Peripheral-Battery-Companion.git
-Initial branch: work; initial working tree clean.
+Source base: 9f4e19caef06bbd5280c804dacc72870afc18b67
+PR: https://github.com/Jau1Agiota/Peripheral-Battery-Companion/pull/1 (draft, base main)
 
-Implemented: Android project sources, Compose Devices/Settings, synthetic repository,
-StateFlow ViewModel, domain validation, uncertainty and unavailable presentation,
-optimized lossless assets, API proposal, README and physical-device checklist.
+Toolchain: Temurin JDK17.0.21+9, Gradle8.9, Android SDK35, Build-Tools34.0.0
+(AGP default) and35.0.0, AGP8.7.3, Kotlin2.0.21. Official Gradle/JDK SHA-256 and
+Android tools repository checksum verified. Generated wrapper JAR also verified
+against Gradle's official SHA-256. Wrapper pins the distribution checksum.
+Managed proxy retained; Java truststore initialized from JDK trust plus managed CA
+certificates. No TLS or artifact-verification bypass. Network commands used
+approved elevated execution. Local activation: source /workspace/toolchains/android-env.sh
+This activation helper is local environment setup, not a repository dependency.
 
-Executed and passed: manifest XML parse; no INTERNET permission assertion;
-three original PNG byte comparisons against Git; three optimized WebP decode checks;
-git diff --check. These are structural checks, not Kotlin compilation or app tests.
+Executed from repository root:
+./gradlew assembleDebug testDebugUnitTest lintDebug assembleDebugAndroidTest --max-workers=2 --console=plain
+Result: BUILD SUCCESSFUL; 76 actionable tasks, all 76 executed.
+Unit XML: 10 tests, 0 failures, 0 errors, 0 skipped.
+Lint XML: 0 errors, 9 warnings: 7 newer-dependency notices, DataExtractionRules,
+MissingApplicationIcon. No baseline/suppression introduced and no assertions disabled.
+UI tests: 1 authored test compiled into androidTest APK; NOT executed.
+No connectedDebugAndroidTest, emulator launch, screenshot capture or physical-device
+testing was performed. Accessibility, narrow widths/large fonts, navigation and
+rendered visual acceptance still require runtime review. No claim of hardware readiness.
 
-Authored but NOT executed: 10 JUnit unit tests and 1 Compose navigation/cards test.
-Attempted: assembleDebug, testDebugUnitTest, lintDebug,
-assembleDebugAndroidTest, connectedDebugAndroidTest. All failed to start (exit 127),
-gradle: command not found. No tests discovered/executed; no compilation or lint results.
-No SDK, adb, sdkmanager, Gradle or Kotlin compiler found; Java 21 runtime present.
+Warnings: AGP SDK metadata XML version mismatch with newer command-line tools;
+libandroidx.graphics.path.so packaged without stripping. Both nonfatal.
+No implementation compilation fixes were necessary. Follow-up changes add the
+checksum-pinned wrapper, JAR ignore exception and current setup/verification docs.
 
-Networking: proxy resolves to an address, but port 8080 connections fail immediately
-for Google SDK HTTPS and GitHub Git requests. No remote authentication response
-received. No credential values inspected or exposed. No system networking changed.
+APK: app/build/outputs/apk/debug/app-debug.apk
+Copy: /workspace/stage-a1-artifacts/app-debug.apk
+Application ID dev.peripheral.battery; version0.1.0-demo; code1; minSDK26; targetSDK35.
+SHA-256: 9d22e7aa676e0457f7d264a3a76305cd718afe63b1ed86ed6433cc58888f19bc
+Debug APK signature verified with apksigner. AAPT package metadata checked.
+Manifest/asset structural checks and git diff --check passed. Three original PNGs
+remain byte-identical to source base. Original recovery exports remain untouched.
 
-Pending: install/verify Gradle 8.9 wrapper, JDK17 and Android SDK35 after platform
-proxy recovery; compile, run unit tests/lint/UI tests, capture screenshots, review
-320dp/large fonts, install/launch on device and produce debug APK. Source compatibility
-and runtime behavior remain unverified. Push and draft PR require working GitHub access.
-Do not merge, release, or proceed to Stage A2 without owner review.
+Xiaomi17t checklist: install debug APK; launch without crash; check demo/not-connected
+banner; distinct keyboard, mouse and headset images; 99%, ~90%, estimate76%;
+refresh keeps samples and shows reload confirmation; Devices/Settings navigation;
+rotation, 200% fonts, TalkBack, scrolling and gesture insets; offline behavior;
+capture screenshots and record Android/HyperOS version and APK checksum.
+
+No Windows application changes, merge, release or Stage A2 work performed.
