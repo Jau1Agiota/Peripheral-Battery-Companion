@@ -11,29 +11,30 @@ are modeled; the default screen intentionally shows only the three available sam
 Open this existing checkout in Android Studio. Use JDK 17, Android SDK platform 35,
 build-tools 35.0.0 and Gradle 8.9. AGP is pinned to 8.7.3, Kotlin/Compose compiler to
 2.0.21, Compose BOM to 2024.12.01, lifecycle to 2.8.7 and activity to 1.9.3.
-These are selected compatible versions, **not verified by a build in this session**.
+The Gradle 8.9 wrapper is included and pins the official distribution SHA-256.
 Set ANDROID_HOME or create an ignored local.properties with sdk.dir. Accept SDK
-licenses through the normal SDK manager. No secrets are required.
+licenses through the normal SDK manager. No secrets are required. AGP may also
+install its default Build-Tools 34.0.0.
 
-The environment has no Gradle distribution or wrapper JAR and cannot download one
-while its proxy is unavailable. After connectivity recovery, install trusted Gradle
-8.9 and run from this directory:
+From this existing checkout (cloud tasks do not need another Git worktree):
 
 ```sh
-gradle wrapper --gradle-version 8.9 --distribution-type bin
 ./gradlew assembleDebug testDebugUnitTest lintDebug assembleDebugAndroidTest
 # With an emulator or USB device available:
 ./gradlew connectedDebugAndroidTest
 ```
 
-Verify the Gradle distribution against Gradle's official SHA-256 and set
-`distributionSha256Sum` in wrapper properties before committing generated wrapper
-files. Do not disable TLS, signature or checksum verification. Use this existing
-checkout; cloud tasks are isolated and do not need another Git worktree.
+On Windows use `gradlew.bat` (or `.\gradlew.bat` in PowerShell). Use JDK 17 for
+Gradle in Android Studio and let the IDE sync the included wrapper. Keep TLS and
+checksum verification enabled.
 
 Expected APK: `app/build/outputs/apk/debug/app-debug.apk`.
 Application ID: `dev.peripheral.battery`; version `0.1.0-demo` (code 1).
-No APK has been produced yet. Build, lint, unit and instrumented tests are pending.
+Debug build, all 10 unit tests, lint and UI-test APK compilation passed in the
+cloud environment. Unit tests: 10 passed, 0 failed, 0 skipped. Lint: 0 errors,
+9 warnings (7 dependency-version notices, backup-rules guidance, missing icon).
+The single Compose UI test was compiled but not executed. No emulator or physical
+hardware testing was performed. See docs/stage-a1-verification.txt for evidence.
 
 ## Structure
 

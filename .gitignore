@@ -31,3 +31,6 @@ replay_pid*
 local.properties
 .idea/
 *.iml
+
+# The Gradle wrapper bootstrap JAR is part of the build toolchain.
+!gradle/wrapper/gradle-wrapper.jar
