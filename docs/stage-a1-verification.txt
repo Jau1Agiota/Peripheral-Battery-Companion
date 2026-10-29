@@ -1,0 +1,29 @@
+Stage A1 verification — 2026-10-29
+Branch: feature/stage-a1-compose-foundation
+Base: a2b42da11114f46b6d0045d14902eb6dc1c99968
+Origin: https://github.com/Jau1Agiota/Peripheral-Battery-Companion.git
+Initial branch: work; initial working tree clean.
+
+Implemented: Android project sources, Compose Devices/Settings, synthetic repository,
+StateFlow ViewModel, domain validation, uncertainty and unavailable presentation,
+optimized lossless assets, API proposal, README and physical-device checklist.
+
+Executed and passed: manifest XML parse; no INTERNET permission assertion;
+three original PNG byte comparisons against Git; three optimized WebP decode checks;
+git diff --check. These are structural checks, not Kotlin compilation or app tests.
+
+Authored but NOT executed: 10 JUnit unit tests and 1 Compose navigation/cards test.
+Attempted: assembleDebug, testDebugUnitTest, lintDebug,
+assembleDebugAndroidTest, connectedDebugAndroidTest. All failed to start (exit 127),
+gradle: command not found. No tests discovered/executed; no compilation or lint results.
+No SDK, adb, sdkmanager, Gradle or Kotlin compiler found; Java 21 runtime present.
+
+Networking: proxy resolves to an address, but port 8080 connections fail immediately
+for Google SDK HTTPS and GitHub Git requests. No remote authentication response
+received. No credential values inspected or exposed. No system networking changed.
+
+Pending: install/verify Gradle 8.9 wrapper, JDK17 and Android SDK35 after platform
+proxy recovery; compile, run unit tests/lint/UI tests, capture screenshots, review
+320dp/large fonts, install/launch on device and produce debug APK. Source compatibility
+and runtime behavior remain unverified. Push and draft PR require working GitHub access.
+Do not merge, release, or proceed to Stage A2 without owner review.
