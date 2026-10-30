@@ -30,18 +30,27 @@ internal class StrictJsonGuard(private val text: String) {
                 if (text[at] == '0') at++ else { require(text[at] in '1'..'9'); while (at < text.length && text[at] in '0'..'9') at++ }
                 if (at < text.length && text[at] == '.') { at++; digits() }
                 if (at < text.length && text[at] in "eE") { at++; if (at < text.length && text[at] in "+-") at++; digits() }
-                require(at > start)
+                require(at > start && text.substring(start, at) != "-0")
             }
         }
     }
-    private fun digits() { val start = at; while (at < text.length && text[at] in '0'..'9') at++; require(at > start) }
+    private fun digits() { val start = at; while (at < text.length && text[at] in '0'..'9') at++; require(at > start && text.substring(start, at) != "-0") }
     private fun literal(word: String) { require(text.startsWith(word, at)); at += word.length }
     private fun string(): String {
         require(at < text.length && text[at++] == '"')
         val out = StringBuilder()
         while (at < text.length) {
             val c = text[at++]
-            if (c == '"') return out.toString()
+            if (c == '"') {
+                val result = out.toString()
+                var i = 0
+                while (i < result.length) {
+                    val ch = result[i++]
+                    if (ch.isHighSurrogate()) { require(i < result.length && result[i].isLowSurrogate()); i++ }
+                    else require(!ch.isLowSurrogate())
+                }
+                return result
+            }
             require(c >= ' ')
             if (c != '\\') out.append(c) else {
                 require(at < text.length)
