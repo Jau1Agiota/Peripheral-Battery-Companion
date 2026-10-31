@@ -1,6 +1,12 @@
 package dev.peripheral.battery.debugharness
 
 import android.content.Intent
+import android.content.ClipData
+import android.content.ClipboardManager
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.lifecycle.lifecycleScope
+import dev.peripheral.battery.debugharness.diagnostics.*
+import kotlinx.coroutines.*
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -26,26 +32,63 @@ class DebugHarnessActivity : ComponentActivity() {
         ViewModelProvider(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 val inputs = HarnessInputs(HarnessFixture.entries.associateWith { fixture ->
-                    assets.open(fixture.assetPath).use { it.readBytes() }
+                    // Keep the opt-in diagnostics reachable if a debug asset is missing/broken.
+                    // Empty input is invalid; the suite reads assets directly and reports the failure.
+                    try { assets.open(fixture.assetPath).use { it.readBytes() } }
+                    catch (_: java.io.IOException) { ByteArray(0) }
+                    catch (_: SecurityException) { ByteArray(0) }
                 })
                 @Suppress("UNCHECKED_CAST")
                 return DebugHarnessModel(inputs) as T
             }
         })[DebugHarnessModel::class.java]
     }
+    private val diagnostics: DiagnosticsModel by lazy {
+        ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                val platform = AndroidDiagnosticPlatform(applicationContext)
+                @Suppress("UNCHECKED_CAST")
+                return DiagnosticsModel({ DiagnosticCatalog(platform, platform).cases() }, platform.metadata()) as T
+            }
+        })[DiagnosticsModel::class.java]
+    }
+    private val createReport = registerForActivityResult(ActivityResultContracts.CreateDocument("text/plain")) { uri ->
+        if (uri == null) diagnostics.exportCanceled() else {
+            val text = diagnostics.takePendingExport()
+            if (text == null) diagnostics.exportUnavailable() else lifecycleScope.launch {
+                val result = withContext(Dispatchers.IO) {
+                    DiagnosticReport.write(text) { contentResolver.openOutputStream(uri, "wt") }
+                }
+                diagnostics.exportFinished(result)
+            }
+        }
+    }
+    private fun exportReport() {
+        if (diagnostics.prepareExport()) {
+            try { createReport.launch("mock-offline-diagnostics.txt") }
+            catch (_: Exception) { diagnostics.takePendingExport(); diagnostics.exportFinished(ExportResult.FAILED) }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme(colorScheme = darkColorScheme()) {
                 val state by model.state.collectAsStateWithLifecycle()
-                BackHandler { exitToDemo() }
-                DebugHarnessScreen(state, model::enterOffline, model::enterSession,
-                    model::advanceOffline, model::act, model::reset, ::exitToDemo)
+                val report by diagnostics.state.collectAsStateWithLifecycle()
+                val showing by diagnostics.showing.collectAsStateWithLifecycle()
+                val exportStatus by diagnostics.exportStatus.collectAsStateWithLifecycle()
+                BackHandler { if (showing) diagnostics.back() else exitToDemo() }
+                if (showing) DiagnosticsScreen(report, exportStatus, diagnostics::start, diagnostics::cancel, diagnostics::back,
+                    copy = { diagnostics.summary()?.let { summary ->
+                        getSystemService(ClipboardManager::class.java).setPrimaryClip(ClipData.newPlainText("MOCK OFFLINE summary", summary))
+                    } }, export = ::exportReport)
+                else DebugHarnessScreen(state, model::enterOffline, model::enterSession,
+                    model::advanceOffline, model::act, model::reset, ::exitToDemo, diagnostics::start)
             }
         }
     }
     override fun onStop() {
-        if (!isChangingConfigurations) model.pause()
+        if (!isChangingConfigurations) { model.pause(); diagnostics.cancel() }
         super.onStop()
     }
     private fun exitToDemo() {
@@ -64,6 +107,7 @@ fun DebugHarnessScreen(
     act: (HarnessAction) -> Unit,
     reset: () -> Unit,
     exit: () -> Unit,
+    runAll: () -> Unit = {},
 ) {
     Surface(Modifier.fillMaxSize()) {
         Column(Modifier.safeDrawingPadding().padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -76,6 +120,8 @@ fun DebugHarnessScreen(
             LazyColumn(Modifier.weight(1f).testTag("harness-list"), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 item {
                     if (state.route == HarnessRoute.LANDING) {
+                        Text("Run All Tests checks local parser, fixtures, mock policies and model behavior only. It runs a finite catalog; elapsed time is measured, not estimated.")
+                        Button(onClick = runAll, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Run All Tests") }
                         Text("Explicit opt-in required. No PC, credentials, network, or real authentication. Choose a local debug mode below.")
                     }
                     Button(onClick = offline, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp)) { Text("Open OFFLINE fixture simulator") }
