@@ -1,0 +1,1212 @@
+{
+  "suite": "E2-1",
+  "inputKind": "CONTROLLED TEST INPUT - NOT LIVE TELEMETRY",
+  "wireSynthetic": false,
+  "windowsBaseCommit": "ac78aa3eccc7c16c870d0d09f565f631f4a04dd5",
+  "producer": "Actual Core ProjectReference; no provider, socket, native security or authenticated session",
+  "cases": [
+    {
+      "id": "precise-both-hyperx-estimate",
+      "file": "precise-both-hyperx-estimate.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000001",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": 99,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": 47,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": 76,
+              "precision": "ESTIMATE",
+              "source": {
+                "kind": "HYPERX_SUPERVISED",
+                "socSupport": "NOT_APPLICABLE",
+                "ownership": "AMBIGUOUS"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": null,
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "independent-input",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "approximate-both",
+      "file": "approximate-both.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000002",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": 80,
+              "precision": "APPROXIMATE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "NOT_SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": 60,
+              "precision": "APPROXIMATE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "NOT_SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": "NO_READING",
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "independent-input",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "unsupported-both",
+      "file": "unsupported-both.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000003",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "NOT_SUPPORTED",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": "UNSUPPORTED",
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "NOT_SUPPORTED",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": "UNSUPPORTED",
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": "NO_READING",
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "independent-input",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "zero-all",
+      "file": "zero-all.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000004",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": 0,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": 0,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": 0,
+              "precision": "ESTIMATE",
+              "source": {
+                "kind": "HYPERX_SUPERVISED",
+                "socSupport": "NOT_APPLICABLE",
+                "ownership": "AMBIGUOUS"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": null,
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "independent-input",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "null-unavailable-all",
+      "file": "null-unavailable-all.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000005",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": "SOURCE_UNAVAILABLE",
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": "SOURCE_UNAVAILABLE",
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": "NO_READING",
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "independent-input",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "stale-lastknown-all",
+      "file": "stale-lastknown-all.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000006",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "STALE",
+            "freshness": "STALE",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": "STALE_CACHE",
+            "lastKnown": {
+              "batteryPercent": 91,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            }
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "STALE",
+            "freshness": "STALE",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": "STALE_CACHE",
+            "lastKnown": {
+              "batteryPercent": 39,
+              "precision": "APPROXIMATE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "NOT_SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            }
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "STALE",
+            "freshness": "STALE",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": "STALE_CACHE",
+            "lastKnown": {
+              "batteryPercent": 71,
+              "precision": "ESTIMATE",
+              "source": {
+                "kind": "HYPERX_SUPERVISED",
+                "socSupport": "NOT_APPLICABLE",
+                "ownership": "AMBIGUOUS"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            }
+          }
+        ]
+      },
+      "group": "independent-input",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "absent-with-lastknown",
+      "file": "absent-with-lastknown.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000007",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "STALE",
+            "deviceConnection": "ABSENT_REPORTED",
+            "unavailableReason": "DEVICE_ABSENT",
+            "lastKnown": {
+              "batteryPercent": 85,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            }
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "STALE",
+            "deviceConnection": "ABSENT_REPORTED",
+            "unavailableReason": "DEVICE_ABSENT",
+            "lastKnown": {
+              "batteryPercent": 30,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            }
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": "NO_READING",
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "independent-input",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "legacy-g915-observation",
+      "file": "legacy-g915-observation.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000008",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": 66,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_STORED",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": "2026-10-31T11:59:00.1234567Z"
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": 55,
+              "precision": "APPROXIMATE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "NOT_SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": "NO_READING",
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "independent-input",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "unknown-confidence-both",
+      "file": "unknown-confidence-both.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000009",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": 40,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "UNKNOWN",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": 20,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "UNKNOWN",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": "NO_READING",
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "independent-input",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "null-receipt-times",
+      "file": "null-receipt-times.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000010",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": 30,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": 10,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": null,
+              "precision": "UNKNOWN",
+              "source": {
+                "kind": "UNKNOWN",
+                "socSupport": "UNKNOWN",
+                "ownership": "UNKNOWN"
+              },
+              "readAt": null,
+              "observedAt": null
+            },
+            "availability": "UNAVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": "NO_READING",
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "independent-input",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "sequence-first",
+      "file": "sequence-first.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000100",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": 99,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": 47,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": 76,
+              "precision": "ESTIMATE",
+              "source": {
+                "kind": "HYPERX_SUPERVISED",
+                "socSupport": "NOT_APPLICABLE",
+                "ownership": "AMBIGUOUS"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": null,
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "publication-sequence",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "sequence-repeat",
+      "file": "sequence-repeat.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000100",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654321Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": 99,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": 47,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": 76,
+              "precision": "ESTIMATE",
+              "source": {
+                "kind": "HYPERX_SUPERVISED",
+                "socSupport": "NOT_APPLICABLE",
+                "ownership": "AMBIGUOUS"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": null,
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "publication-sequence",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "sequence-second",
+      "file": "sequence-second.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000100",
+        "revision": 2,
+        "capturedAt": "2026-10-31T12:00:00.7654322Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": 99,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": 47,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": 76,
+              "precision": "ESTIMATE",
+              "source": {
+                "kind": "HYPERX_SUPERVISED",
+                "socSupport": "NOT_APPLICABLE",
+                "ownership": "AMBIGUOUS"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": null,
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "publication-sequence",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "sequence-restarted",
+      "file": "sequence-restarted.json",
+      "androidAccepts": true,
+      "windowsAccepts": true,
+      "expected": {
+        "schemaVersion": 1,
+        "synthetic": false,
+        "serverInstanceId": "aabbccdd-1234-4000-8000-000000000101",
+        "revision": 1,
+        "capturedAt": "2026-10-31T12:00:00.7654322Z",
+        "devices": [
+          {
+            "id": "g915",
+            "current": {
+              "batteryPercent": 99,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "g305",
+            "current": {
+              "batteryPercent": 47,
+              "precision": "PRECISE",
+              "source": {
+                "kind": "GHUB_GATEWAY",
+                "socSupport": "SUPPORTED",
+                "ownership": "ATTRIBUTED"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "ACTIVE_REPORTED",
+            "unavailableReason": null,
+            "lastKnown": null
+          },
+          {
+            "id": "hyperx",
+            "current": {
+              "batteryPercent": 76,
+              "precision": "ESTIMATE",
+              "source": {
+                "kind": "HYPERX_SUPERVISED",
+                "socSupport": "NOT_APPLICABLE",
+                "ownership": "AMBIGUOUS"
+              },
+              "readAt": "2026-10-31T11:59:00.1234567Z",
+              "observedAt": null
+            },
+            "availability": "AVAILABLE",
+            "freshness": "UNKNOWN",
+            "deviceConnection": "UNKNOWN",
+            "unavailableReason": null,
+            "lastKnown": null
+          }
+        ]
+      },
+      "group": "publication-sequence",
+      "origin": "Windows projection -\u003E PublishedSnapshotStore -\u003E BatterySnapshotJson.Serialize"
+    },
+    {
+      "id": "reject-unknown-enum",
+      "file": "reject-unknown-enum.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled mutation of exact Windows-emitted bytes"
+    },
+    {
+      "id": "reject-invalid-timestamp",
+      "file": "reject-invalid-timestamp.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled mutation of exact Windows-emitted bytes"
+    },
+    {
+      "id": "reject-nonutc-timestamp",
+      "file": "reject-nonutc-timestamp.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled mutation of exact Windows-emitted bytes"
+    },
+    {
+      "id": "reject-hyperx-precise",
+      "file": "reject-hyperx-precise.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled mutation of exact Windows-emitted bytes"
+    },
+    {
+      "id": "reject-hyperx-attributed",
+      "file": "reject-hyperx-attributed.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled mutation of exact Windows-emitted bytes"
+    },
+    {
+      "id": "reject-hyperx-gateway",
+      "file": "reject-hyperx-gateway.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled mutation of exact Windows-emitted bytes"
+    },
+    {
+      "id": "reject-gateway-observation",
+      "file": "reject-gateway-observation.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled mutation of exact Windows-emitted bytes"
+    },
+    {
+      "id": "reject-null-available",
+      "file": "reject-null-available.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled mutation of exact Windows-emitted bytes"
+    },
+    {
+      "id": "policy-uppercase-uuid",
+      "file": "policy-uppercase-uuid.json",
+      "androidAccepts": true,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "known-policy-difference",
+      "origin": "Controlled mutation of exact Windows-emitted bytes"
+    },
+    {
+      "id": "reject-malformed-utf8",
+      "file": "reject-malformed-utf8.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled byte mutation of Windows-emitted baseline"
+    },
+    {
+      "id": "reject-duplicate-key",
+      "file": "reject-duplicate-key.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled byte mutation of Windows-emitted baseline"
+    },
+    {
+      "id": "reject-oversized",
+      "file": "reject-oversized.json",
+      "androidAccepts": false,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "negative-mutation",
+      "origin": "Controlled byte mutation of Windows-emitted baseline"
+    },
+    {
+      "id": "policy-negative-zero",
+      "file": "policy-negative-zero.json",
+      "androidAccepts": true,
+      "windowsAccepts": false,
+      "expected": null,
+      "group": "known-policy-difference",
+      "origin": "Controlled byte mutation of Windows-emitted baseline"
+    }
+  ]
+}

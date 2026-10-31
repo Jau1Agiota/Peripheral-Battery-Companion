@@ -17,6 +17,8 @@ android {
     buildFeatures { compose = true }
     // Local synthetic fixtures are available only to the explicitly entered debug harness.
     sourceSets.getByName("debug").assets.srcDir("src/test/resources")
+    // E2 byte vectors are JVM-test resources only, never debug/release application assets.
+    sourceSets.getByName("test").resources.srcDir("src/testInterop/resources")
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
     kotlinOptions { jvmTarget = "17" }
 }
