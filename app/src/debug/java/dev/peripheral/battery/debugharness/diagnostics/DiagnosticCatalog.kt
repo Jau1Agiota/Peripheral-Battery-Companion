@@ -78,7 +78,7 @@ class DiagnosticCatalog(private val assets: DiagnosticAssets, private val platfo
         REJECTED.forEach { name -> add(DiagnosticCase("parser.rejected.$name", DiagnosticCategory.PARSER, Observation.REJECTED) { outcome(assets.read("contracts/rejected/$name.json")) }) }
         HASHES.forEach { (file, digest) ->
             add(DiagnosticCase("hash.${file.replace('/', '.')}", DiagnosticCategory.HASH, Observation.MATCH) {
-                val actual = MessageDigest.getInstance("SHA-256").digest(assets.read("contracts/$file")).joinToString("") { "%02x".format(it) }
+                val actual = MessageDigest.getInstance("SHA-256").digest(assets.read("contracts/$file")).joinToString("") { "%02x".format(it.toInt() and 0xff) }
                 if (actual == digest) Observation.MATCH else Observation.NOT_ENFORCED
             })
         }

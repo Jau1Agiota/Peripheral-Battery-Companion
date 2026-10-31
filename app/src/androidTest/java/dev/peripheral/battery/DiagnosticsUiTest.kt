@@ -8,7 +8,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import dev.peripheral.battery.debugharness.DebugHarnessActivity
 import dev.peripheral.battery.debugharness.diagnostics.*
 import org.junit.Assert.*
-import org.junit.Assume.assumeTrue
 import org.junit.Rule
 import org.junit.Test
 
@@ -35,7 +34,7 @@ class DiagnosticsUiTest {
     }
     @Test fun systemPickerCancellationNeverClaimsExportSuccess() {
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("text/plain")
-        assumeTrue("No system document provider", intent.resolveActivity(compose.activity.packageManager) != null)
+        // Exercise the real system picker; do not skip based on package visibility.
         runSuite()
         compose.onNodeWithText("Export Report (TXT)").performScrollTo().performClick()
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
