@@ -1,5 +1,15 @@
 # Peripheral Battery Companion — Android Stage A1
 
+## LAN preview (development)
+
+The dedicated .lanpreview debug build displays Windows battery snapshots through
+an explicitly selected private IPv4 endpoint. It is **unencrypted and
+unauthenticated**. See [configuration, builds, actual verification results and
+limitations](docs/lan-preview.md). Release retains the offline demo and requests no
+INTERNET permission. Gate E/W1 and authenticated transport are unchanged.
+
+The historical Stage A1 description below describes the ordinary offline build.
+
 Native Kotlin / Jetpack Compose demo. All readings are synthetic; no PC connection,
 networking, pairing, polling, notifications or device control exists. No INTERNET
 permission is requested. Devices and Settings work locally; Refresh demo reloads

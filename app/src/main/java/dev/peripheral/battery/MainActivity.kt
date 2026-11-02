@@ -29,6 +29,15 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.peripheral.battery.domain.*
+import dev.peripheral.battery.data.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import dev.peripheral.battery.ui.*
 
 private val Cyan = Color(0xFF00D8F5)
@@ -38,22 +47,56 @@ private val Green = Color(0xFF10EE43)
 private val Yellow = Color(0xFFFFDD00)
 
 class MainActivity : ComponentActivity() {
+    private val selectedEndpoint = MutableStateFlow<LanPreviewSettings?>(null)
+    private val preview by lazy { LanPreviewRepository(LanPreviewClient(BuildConfig.LAN_PREVIEW_HOST)) }
+    private val previewEnabled get() = BuildConfig.DEBUG && BuildConfig.LAN_PREVIEW_HOST.isNotEmpty()
+
+    override fun onNewIntent(intent: android.content.Intent) {
+        super.onNewIntent(intent)
+        if (!previewEnabled) return
+        if (intent.getBooleanExtra("lan_preview_disconnect", false)) selectedEndpoint.value = null
+        else if (intent.getBooleanExtra("lan_preview_connect", false)) {
+            val port = intent.getIntExtra("lan_preview_port", 8765)
+            if (port in 1024..65535) selectedEndpoint.value = LanPreviewSettings(BuildConfig.LAN_PREVIEW_HOST, port)
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        if (previewEnabled && intent.getBooleanExtra("lan_preview_connect", false) && intent.getIntExtra("lan_preview_port", 8765) in 1024..65535) {
+            // Explicit local debug launch, constrained by the same build-selected endpoint.
+            selectedEndpoint.value = LanPreviewSettings(BuildConfig.LAN_PREVIEW_HOST, intent.getIntExtra("lan_preview_port", 8765))
+        }
+        if (previewEnabled) lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                selectedEndpoint.collectLatest { settings -> if (settings != null) preview.monitor(settings) }
+            }
+        }
         setContent {
             MaterialTheme(colorScheme = darkColorScheme(primary = Cyan, background = Ink,
                 surface = Color(0xFF0A1420), onSurface = Color(0xFFF4F7FC), onBackground = Color(0xFFF4F7FC))) {
-                val model: BatteryViewModel = viewModel()
+                val factory = remember { object : ViewModelProvider.Factory {
+                    @Suppress("UNCHECKED_CAST")
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T =
+                        BatteryViewModel(if (previewEnabled) preview else DemoBatteryRepository()) as T
+                } }
+                val model: BatteryViewModel = viewModel(factory = factory)
                 val state by model.state.collectAsStateWithLifecycle()
-                CompanionApp(state, model::refreshDemo)
+                CompanionApp(state, model::refreshDemo,
+                    if (previewEnabled) BuildConfig.LAN_PREVIEW_HOST else "",
+                    { host, port ->
+                        val endpoint = LanPreviewSettings(host, port)
+                        require(endpoint.host == BuildConfig.LAN_PREVIEW_HOST)
+                        selectedEndpoint.value = endpoint
+                    }, { selectedEndpoint.value = null })
             }
         }
     }
 }
 
 @Composable
-fun CompanionApp(state: BatteryUiState, onRefresh: () -> Unit) {
+fun CompanionApp(state: BatteryUiState, onRefresh: () -> Unit, previewHost: String = "",
+    onLanConnect: (String, Int) -> Unit = { _, _ -> }, onLanDisconnect: () -> Unit = {}) {
     var settings by rememberSaveable { mutableStateOf(false) }
     Scaffold(containerColor = Ink, bottomBar = {
         Column(Modifier.background(Ink)) {
@@ -90,8 +133,9 @@ fun CompanionApp(state: BatteryUiState, onRefresh: () -> Unit) {
                 Text("Advanced settings", style = MaterialTheme.typography.headlineSmall)
                 Text(if (state.snapshot.synthetic) "Demo only" else state.connection.status, color = Cyan, style = MaterialTheme.typography.titleLarge)
                 Text(if (state.snapshot.synthetic) "All readings are synthetic. No PC is connected. Refresh only reloads the same sample values." else state.connection.detail)
-                Text("Future connectivity", style = MaterialTheme.typography.titleLarge)
-                Text("LAN and authenticated VPN access are future proposals. Pairing, authentication, encryption and Windows API review remain unresolved. No network service, discovery, polling or notifications are enabled.")
+                if (previewHost.isNotEmpty()) LanPreviewSettingsScreen(previewHost, onLanConnect, onLanDisconnect)
+                Text("Authenticated connectivity", style = MaterialTheme.typography.titleLarge)
+                Text("Authenticated TLS and pairing remain unavailable. The optional LAN preview is a separate unencrypted, unauthenticated development feature. No remote device commands or discovery are provided.")
                 TextButton(onClick = { settings = false }) { Text("Back to Devices") }
             } else {
                 Text(state.connection.banner, color = Muted, fontSize = 10.sp)

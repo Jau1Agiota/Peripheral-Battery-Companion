@@ -3,13 +3,20 @@ package dev.peripheral.battery.ui
 import dev.peripheral.battery.domain.*
 
 data class ConnectionPresentation(val banner: String, val status: String, val detail: String, val readingLabel: String)
-fun ConnectionMetadata.present(): ConnectionPresentation = when (state) {
+fun ConnectionMetadata.present(): ConnectionPresentation {
+    val result = when (state) {
     ConnectionState.DEMO -> ConnectionPresentation("Demo data · Synthetic sample readings", "Demo mode · Not connected", "Synthetic samples · Not your device readings", "Demo data")
     ConnectionState.DISCONNECTED -> ConnectionPresentation("No connection · Readings unavailable", "Not connected", "No battery readings available", "No observation available")
     ConnectionState.CONNECTING -> ConnectionPresentation("Connecting · Readings unavailable", "Connecting", "Waiting for a genuine connection", "No observation available")
     ConnectionState.CONNECTED -> ConnectionPresentation("Provider readings", "Connected", "Connection reported by provider", "Provider data")
     ConnectionState.STALE -> ConnectionPresentation("Stale data · Not current", "Connection stale", "Cached readings may be outdated", "Stale data")
     ConnectionState.ERROR -> ConnectionPresentation("Connection error · Not current", "Connection error", "Readings unavailable or cached", "Connection error")
+    }
+    return if (message == dev.peripheral.battery.data.LAN_PREVIEW_LABEL) result.copy(
+        banner = dev.peripheral.battery.data.LAN_PREVIEW_LABEL,
+        detail = dev.peripheral.battery.data.LAN_PREVIEW_LABEL,
+        readingLabel = if (state == ConnectionState.CONNECTED) "LAN preview data" else result.readingLabel,
+    ) else result
 }
 
 /** Canonical card order and missing identities are maintained regardless of provider order/completeness. */
