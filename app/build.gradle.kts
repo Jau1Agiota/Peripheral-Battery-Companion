@@ -3,6 +3,32 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
 }
+val previewHost = providers.gradleProperty("lanPreviewHost").orElse("")
+val checkedPreviewHost = previewHost.get().also { host ->
+    if (host.isNotEmpty()) {
+        val parts = host.split('.')
+        require(parts.size == 4 && parts.all { it.toIntOrNull() in 0..255 && it.toInt().toString() == it }) { "Use canonical IPv4" }
+        val b = parts.map { it.toInt() }
+        require(b[0] == 10 || b[0] == 172 && b[1] in 16..31 || b[0] == 192 && b[1] == 168) { "Use private IPv4" }
+    }
+}
+val generatedPreviewResources = layout.buildDirectory.dir("generated/lanPreviewResources")
+val generateLanPreviewConfig = tasks.register("generateLanPreviewConfig") {
+    inputs.property("host", previewHost)
+    outputs.dir(generatedPreviewResources)
+    doLast {
+        val host = previewHost.get()
+        require(host.isEmpty() || host.split('.').mapNotNull { it.toIntOrNull() }.let { b ->
+            b.size == 4 && (b[0] == 10 || b[0] == 172 && b[1] in 16..31 || b[0] == 192 && b[1] == 168)
+        }) { "Use a private IPv4 preview host" }
+        require(host.isEmpty() || host.split('.').let { it.size == 4 && it.all { n -> n.toIntOrNull() in 0..255 && n.toInt().toString() == n } })
+        val file = generatedPreviewResources.get().file("xml/lan_preview_network_security_config.xml").asFile
+        file.parentFile.mkdirs()
+        val exception = if (host.isEmpty()) "" else "<domain-config cleartextTrafficPermitted=\"true\"><domain includeSubdomains=\"false\">$host</domain></domain-config>"
+        file.writeText("<network-security-config><base-config cleartextTrafficPermitted=\"false\"/>$exception</network-security-config>")
+    }
+}
+tasks.configureEach { if (name == "preDebugBuild") dependsOn(generateLanPreviewConfig) }
 android {
     namespace = "dev.peripheral.battery"
     compileSdk = 35
@@ -14,7 +40,10 @@ android {
         versionName = "0.1.0-demo"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildFeatures { compose = true }
+    buildFeatures { compose = true; buildConfig = true }
+    defaultConfig { buildConfigField("String", "LAN_PREVIEW_HOST", "\"${checkedPreviewHost}\"") }
+    buildTypes.getByName("debug") { applicationIdSuffix = ".lanpreview"; versionNameSuffix = "-lan-preview" }
+    sourceSets.getByName("debug").res.srcDir(generatedPreviewResources)
     // Local synthetic fixtures are available only to the explicitly entered debug harness.
     sourceSets.getByName("debug").assets.srcDir("src/test/resources")
     // E2 byte vectors are JVM-test resources only, never debug/release application assets.
